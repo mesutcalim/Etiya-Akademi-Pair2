@@ -4,6 +4,7 @@ import com.etiya.ecommercedemopair2.business.abstracts.CityService;
 import com.etiya.ecommercedemopair2.business.abstracts.CountryService;
 import com.etiya.ecommercedemopair2.business.dtos.request.country.AddCountryRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.country.AddCountryResponse;
+import com.etiya.ecommercedemopair2.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair2.entities.concretes.City;
 import com.etiya.ecommercedemopair2.entities.concretes.Country;
 import com.etiya.ecommercedemopair2.repository.abstracts.CountryRepository;
@@ -16,18 +17,19 @@ public class CountryManager implements CountryService {
     private CountryRepository countryRepository;
     private CityService cityService;
 
+    private ModelMapperService modelMapperService;
+
     @Override
     public AddCountryResponse addCountry(AddCountryRequest addCountryRequest) {
-        Country country=new Country();
-        country.setCountry_name(addCountryRequest.getCountry_name());
-
-        City city = cityService.getById(addCountryRequest.getCity_id());
-        country.setCity(city);
-
+        Country country= modelMapperService.getMapper().map(addCountryRequest,Country.class);
         Country savedCountry = countryRepository.save(country);
 
-        AddCountryResponse response = new AddCountryResponse(savedCountry.getId(), savedCountry.getCountry_name(), savedCountry.getCity().getId());
+        AddCountryResponse response = modelMapperService.getMapper().map(savedCountry,AddCountryResponse.class);
 
         return response;
+    }
+    @Override
+    public Country getById(int id){
+        return countryRepository.findById(id).orElseThrow();
     }
 }

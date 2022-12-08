@@ -1,9 +1,11 @@
 package com.etiya.ecommercedemopair2.business.dtos.request.order;
 
+import com.etiya.ecommercedemopair2.business.constants.Messages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -12,8 +14,11 @@ import java.util.Date;
 public class AddOrderRequest {
     private Date order_date;
     private Date ship_date;
-    private int shipper_id;
-    private int payment_id;
-    private int customer_id;
+    @Min(value=1,message = "shipper_id "+ Messages.Id.IdFieldNeedsToBeMinOne)
+    private int shipperId;
+    @Min(value=1,message = "payment_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    private int paymentMethodId;
+    @Min(value=1,message = "customer_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    private int customerId;
 
 }

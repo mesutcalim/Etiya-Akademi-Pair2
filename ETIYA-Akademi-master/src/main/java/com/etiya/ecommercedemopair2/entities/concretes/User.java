@@ -39,7 +39,7 @@ public class User {
     private String password;
 
     @Column(name = "birthday")
-    private LocalDate birthday;
+    private Date birthday;
 
     @ManyToOne
     @JoinColumn(name = "address_id")

@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair2.business.abstracts.RoleService;
 import com.etiya.ecommercedemopair2.business.abstracts.UserService;
 import com.etiya.ecommercedemopair2.business.dtos.request.customer.AddCustomerRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.customer.AddCustomerResponse;
+import com.etiya.ecommercedemopair2.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair2.entities.concretes.Customer;
 import com.etiya.ecommercedemopair2.entities.concretes.PaymentMethod;
 import com.etiya.ecommercedemopair2.entities.concretes.Role;
@@ -21,6 +22,8 @@ public class CustomerManager implements CustomerService {
     private UserService userService;
     private RoleService roleService;
     private PaymentMethodService paymentMethodService;
+    private ModelMapperService modelMapperService;
+
     @Override
     public Customer getById(int id) {
         return customerRepository.findById(id).orElseThrow();
@@ -28,19 +31,10 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public AddCustomerResponse addCustomer(AddCustomerRequest addCustomerRequest) {
-        Customer customer = new Customer();
-        User user = userService.getById(addCustomerRequest.getUser_id());
-        customer.setUser(user);
-
-        Role role = roleService.getById(addCustomerRequest.getRole_id());
-        customer.setRole(role);
-
-        PaymentMethod paymentMethod = paymentMethodService.getById(addCustomerRequest.getPayment_id());
-        customer.setPaymentMethod(paymentMethod);
-
+        Customer customer = modelMapperService.getMapper().map(addCustomerRequest,Customer.class);
         Customer savedCustomer = customerRepository.save(customer);
 
-        AddCustomerResponse response = new AddCustomerResponse(savedCustomer.getId(), savedCustomer.getPaymentMethod().getId(),savedCustomer.getRole().getId(),savedCustomer.getUser().getId());
+        AddCustomerResponse response = modelMapperService.getMapper().map(savedCustomer,AddCustomerResponse.class);
         return response;
     }
 }

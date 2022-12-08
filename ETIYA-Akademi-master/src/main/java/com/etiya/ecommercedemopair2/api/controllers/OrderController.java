@@ -25,16 +25,16 @@ public class OrderController {
 
     @GetMapping("/getAll")
     public List<Order> getAll(@RequestParam("id") int id ){
-        //return orderService.findAllOrdersOrderByOrder_date(id);
-        return null;
+        return orderService.findAllOrdersOrderByOrder_date(id);
     }
-    @GetMapping("/getById")
+   /* @GetMapping("/getById")
     public List<Order> findAllProductsUnitPriceBetween(@RequestParam("id") int id){
         //return orderService.findAllProductsUnitPriceBetween(id);
         return null;
-    }
+    }*/
     @PostMapping("/add")
     public ResponseEntity<AddOrderResponse> addOrder(@RequestBody AddOrderRequest addOrderRequest){
         return new ResponseEntity<>(orderService.addOrder(addOrderRequest), HttpStatus.CREATED);
     }
+
  }

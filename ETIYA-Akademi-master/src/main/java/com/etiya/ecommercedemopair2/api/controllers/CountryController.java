@@ -4,6 +4,7 @@ import com.etiya.ecommercedemopair2.business.abstracts.CountryService;
 import com.etiya.ecommercedemopair2.business.dtos.request.country.AddCountryRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.country.AddCountryResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/countries")
 @AllArgsConstructor
 public class CountryController {
+    @Autowired
     private CountryService countryService;
 
     @PostMapping("/add")

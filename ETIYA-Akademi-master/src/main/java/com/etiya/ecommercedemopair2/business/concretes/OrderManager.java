@@ -6,6 +6,7 @@ import com.etiya.ecommercedemopair2.business.abstracts.PaymentMethodService;
 import com.etiya.ecommercedemopair2.business.abstracts.ShipperService;
 import com.etiya.ecommercedemopair2.business.dtos.request.order.AddOrderRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.order.AddOrderResponse;
+import com.etiya.ecommercedemopair2.core.util.mapping.ModelMapperService;
 import com.etiya.ecommercedemopair2.entities.concretes.Customer;
 import com.etiya.ecommercedemopair2.entities.concretes.Order;
 import com.etiya.ecommercedemopair2.entities.concretes.PaymentMethod;
@@ -23,35 +24,22 @@ public class OrderManager implements OrderService {
     private ShipperService shipperService;
     private PaymentMethodService paymentMethodService;
     private CustomerService customerService;
+    private ModelMapperService modelMapperService;
     @Override
     public List<Order> findAllOrdersOrderByOrder_date(int id) {
         return orderRepository.getAllOrdersOrderById(id);
         //return null;
     }
-    public List<Order> findAllProductsUnitPriceBetween(int id){
+   /* public List<Order> findAllByProductsUnitPriceBetween(int id){
         return orderRepository.findAllProductsUnitPriceBetween(id);
-    }
+    }*/
 
     @Override
     public AddOrderResponse addOrder(AddOrderRequest addOrderRequest) {
-        Order order = new Order();
-
-        order.setOrder_date(addOrderRequest.getOrder_date());
-        order.setShip_date(addOrderRequest.getShip_date());
-
-        Shipper shipper= shipperService.getById(addOrderRequest.getShipper_id());
-        order.setShipper(shipper);
-
-        PaymentMethod paymentMethod = paymentMethodService.getById(addOrderRequest.getPayment_id());
-        order.setPaymentMethod(paymentMethod);
-
-        Customer customer= customerService.getById(addOrderRequest.getCustomer_id());
-        order.setCustomer(customer);
-
+        Order order = modelMapperService.getMapper().map(addOrderRequest,Order.class);
         Order savedOrder = orderRepository.save(order);
 
-        AddOrderResponse response = new AddOrderResponse(savedOrder.getId(),savedOrder.getOrder_date(),savedOrder.getShip_date(),savedOrder.getShipper().getId(),savedOrder.getPaymentMethod().getId(),savedOrder.getCustomer().getId());
-
+        AddOrderResponse response = modelMapperService.getMapper().map(savedOrder,AddOrderResponse.class);
         return response;
     }
 

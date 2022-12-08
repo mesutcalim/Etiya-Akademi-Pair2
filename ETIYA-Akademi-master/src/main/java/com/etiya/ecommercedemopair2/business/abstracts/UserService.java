@@ -1,5 +1,7 @@
 package com.etiya.ecommercedemopair2.business.abstracts;
 
+import com.etiya.ecommercedemopair2.business.dtos.request.user.AddUserRequest;
+import com.etiya.ecommercedemopair2.business.dtos.response.user.AddUserResponse;
 import com.etiya.ecommercedemopair2.entities.concretes.Product;
 import com.etiya.ecommercedemopair2.entities.concretes.User;
 
@@ -13,4 +15,6 @@ public interface UserService {
     List<User> getByEmail(String email);
 
     User getByFirstName(String name);
+
+    AddUserResponse addUser(AddUserRequest addUserRequest);
 }

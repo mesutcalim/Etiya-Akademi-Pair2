@@ -4,6 +4,7 @@ import com.etiya.ecommercedemopair2.business.abstracts.RoleService;
 import com.etiya.ecommercedemopair2.business.dtos.request.role.AddRoleRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.role.AddRoleResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/roles")
 @AllArgsConstructor
 public class RoleController {
+    @Autowired
     private RoleService roleService;
     @PostMapping("/add")
     public ResponseEntity<AddRoleResponse> addRole (@RequestBody AddRoleRequest addRoleRequest){

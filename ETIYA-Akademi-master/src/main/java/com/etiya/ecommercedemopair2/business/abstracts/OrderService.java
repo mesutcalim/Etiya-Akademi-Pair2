@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderService {
     List<Order> findAllOrdersOrderByOrder_date(int id);
 
-    List<Order> findAllProductsUnitPriceBetween(int id);
+    //List<Order> findAllProductsUnitPriceBetween(int id);
 
     AddOrderResponse addOrder(AddOrderRequest addOrderRequest);
 

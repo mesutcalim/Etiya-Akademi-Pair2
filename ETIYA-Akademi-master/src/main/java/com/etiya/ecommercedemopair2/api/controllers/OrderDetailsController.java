@@ -4,6 +4,7 @@ import com.etiya.ecommercedemopair2.business.abstracts.OrderDetailsService;
 import com.etiya.ecommercedemopair2.business.dtos.request.orderDetails.AddOrderDetailsRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.orderDetails.AddOrderDetailsResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/orderDetails")
 @AllArgsConstructor
 public class OrderDetailsController {
+    @Autowired
     private OrderDetailsService orderDetailsService;
 
     @PostMapping("/add")
