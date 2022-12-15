@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemopair2.business.concretes;
 
+import com.etiya.ecommercedemopair2.business.abstracts.InvoiceService;
 import com.etiya.ecommercedemopair2.business.abstracts.OrderDetailsService;
 import com.etiya.ecommercedemopair2.business.abstracts.OrderService;
 import com.etiya.ecommercedemopair2.business.abstracts.ProductService;
@@ -11,6 +12,7 @@ import com.etiya.ecommercedemopair2.core.util.results.SuccessDataResult;
 import com.etiya.ecommercedemopair2.entities.concretes.Invoice;
 import com.etiya.ecommercedemopair2.entities.concretes.OrderDetail;
 import com.etiya.ecommercedemopair2.entities.concretes.Product;
+import com.etiya.ecommercedemopair2.repository.abstracts.InvoiceRepository;
 import com.etiya.ecommercedemopair2.repository.abstracts.OrderDetailsRepository;
 import com.etiya.ecommercedemopair2.repository.abstracts.OrderRepository;
 import com.etiya.ecommercedemopair2.repository.abstracts.ProductRepository;
@@ -27,9 +29,8 @@ public class OrderDetailsManager implements OrderDetailsService {
     private OrderDetailsRepository orderDetailsRepository;
     private OrderService orderService;
     private ProductService productService;
-    private ProductRepository productRepository;
+    private InvoiceService invoiceService;
     private ModelMapperService modelMapperService;
-    private final OrderRepository orderRepository;
 
     @Override
     public DataResult<AddOrderDetailsResponse> addOrderDetails(AddOrderDetailsRequest addOrderDetailsRequest) {
@@ -46,25 +47,27 @@ public class OrderDetailsManager implements OrderDetailsService {
     @Transactional
     public DataResult<AddOrderDetailsResponse> addOrderDetailsWithTransaction(AddOrderDetailsRequest addOrderDetailsRequest) {
         List<Integer> productIdList = addOrderDetailsRequest.getProductId();
-        List<Product> productList = null;
+        List<Product> productList = new ArrayList<>();
         double totalTemporal=0.0;
         for(int p:productIdList){
-            Product product= productRepository.findById(p).orElseThrow();
+            Product product= productService.getById(p).getData();
             totalTemporal += product.getUnit_price();
             productList.add(product);
         }
 
         OrderDetail orderDetail= OrderDetail.builder()
                 .products(productList)
-                .order(orderRepository.findById(addOrderDetailsRequest.getOrderId()).orElseThrow())
+                .order(orderService.getById(addOrderDetailsRequest.getOrderId()).getData())
                 .build();
 
         Invoice invoice = Invoice.builder()
-                .customerName(orderRepository.findById(addOrderDetailsRequest.getOrderId()).orElseThrow().getCustomer().getUser().getFirst_name())
+                .customerName(orderService.getById(addOrderDetailsRequest.getOrderId()).getData().getCustomer().getUser().getFirst_name())
                 .invoice_date(LocalDate.now())
                 .total(totalTemporal)
+                .orderDetail(orderDetailsRepository.findById(addOrderDetailsRequest.getOrderId()).orElseThrow())
                 .build();
 
+        Invoice savedInvoice = invoiceService.addInvoice(invoice);
         OrderDetail savedOrderDetail = orderDetailsRepository.save(orderDetail);
 
         AddOrderDetailsResponse response=
