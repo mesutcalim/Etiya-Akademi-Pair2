@@ -23,20 +23,20 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("customer")
+    @JsonIgnoreProperties({"customer","salesman"})
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnoreProperties("customer")
+    @JsonIgnoreProperties({"customer","salesman","shipper"})
     private Role role;
 
     @ManyToOne
     @JoinColumn(name = "payment_id")
-    @JsonIgnoreProperties("customer")
+    @JsonIgnoreProperties({"customer","salesman","order"})
     private PaymentMethod paymentMethod;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnoreProperties("customer")
-    private List<Order> orders;
+    @JsonIgnoreProperties({"customer","salesman"})
+    private List<Order> order;
 }

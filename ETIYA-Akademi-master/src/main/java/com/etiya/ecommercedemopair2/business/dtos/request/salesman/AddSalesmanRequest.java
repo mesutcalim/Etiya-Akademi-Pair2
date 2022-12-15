@@ -13,11 +13,11 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 public class AddSalesmanRequest {
-    @NotNull(message = Messages.Name.NameFieldCantBeEmpty)
-    @NotBlank(message = Messages.Name.NameFieldCantBeEmpty)
+    @NotNull(message = Messages.Common.NameFieldCantBeEmpty)
+    @NotBlank(message = Messages.Common.NameFieldCantBeEmpty)
     private String company_name;
-    @Min(value=1,message = "role_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "role_id "+Messages.Common.IdFieldNeedsToBeMinOne)
     private int roleId;
-    @Min(value=1,message = "user_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "user_id "+Messages.Common.IdFieldNeedsToBeMinOne)
     private int userId;
 }

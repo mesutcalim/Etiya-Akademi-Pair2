@@ -12,14 +12,14 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class AddUserRequest {
-    @NotNull(message = Messages.Name.NameFieldCantBeEmpty)
-    @NotBlank(message = Messages.Name.NameFieldCantBeEmpty)
+    @NotNull(message = Messages.Common.NameFieldCantBeEmpty)
+    @NotBlank(message = Messages.Common.NameFieldCantBeEmpty)
     private String first_name;
-    @NotNull(message = Messages.Name.NameFieldCantBeEmpty)
-    @NotBlank(message = Messages.Name.NameFieldCantBeEmpty)
+    @NotNull(message = Messages.Common.NameFieldCantBeEmpty)
+    @NotBlank(message = Messages.Common.NameFieldCantBeEmpty)
     private String last_name;
     @NotNull(message = "Telefon numarası boş bırakılamaz!")
-    private String phone_number;
+    private String phoneNumber;
     @NotNull(message = "E mail alanı boş bırakılamaz!")
 
     //TODO: E mail formatında yazılsın
@@ -28,7 +28,7 @@ public class AddUserRequest {
     private String email;
     @Size(min = 8,message = "Şifre alanı en az 8 karakter verilmelidir.")
     private String password;
-    @Min(value=1,message = "address_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "address_id "+Messages.Common.IdFieldNeedsToBeMinOne)
     private int addressId;
-    private Date birth_date;
+    private Date birthday;
 }

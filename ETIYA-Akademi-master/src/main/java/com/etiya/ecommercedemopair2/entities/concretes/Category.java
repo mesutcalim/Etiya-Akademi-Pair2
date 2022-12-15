@@ -16,9 +16,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Category {
     @Id
-    @Column(name = "id")
+    @Column(name = "category_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -26,6 +27,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    @JsonIgnoreProperties("category")
-    private List<Product> products;
+    @JsonIgnore
+    private List<Product> product;
 }

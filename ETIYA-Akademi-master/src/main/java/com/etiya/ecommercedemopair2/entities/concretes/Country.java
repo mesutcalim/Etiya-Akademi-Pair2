@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemopair2.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Country {
     @Id
     @Column(name = "id")
@@ -24,12 +26,7 @@ public class Country {
     @Column(name = "country_name")
     private String country_name;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    @JsonIgnoreProperties("country")
-    private City city;
-
-    @OneToMany(mappedBy = "id")
-    @JsonIgnoreProperties("id")
-    private List<Address> addresses;
+   @OneToMany(mappedBy = "country")
+    @JsonIgnore
+    private List<City> cities;
 }

@@ -1,17 +1,17 @@
 package com.etiya.ecommercedemopair2.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "order_details")
+@Table(name = "order_detail")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDetail {
@@ -19,9 +19,6 @@ public class OrderDetail {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "total")
-    private double total;
 
     @Column(name = "coupon",nullable = true)
     private String coupon;
@@ -31,9 +28,13 @@ public class OrderDetail {
     @JsonIgnoreProperties("orderDetails")
     private Order order;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties("orderDetails")
-    private Product product;
+    @JsonIgnore
+    private List<Product> products;
+
+    @OneToOne(mappedBy = "orderDetail")
+    @JsonIgnore
+    private Invoice invoice;
 
 }

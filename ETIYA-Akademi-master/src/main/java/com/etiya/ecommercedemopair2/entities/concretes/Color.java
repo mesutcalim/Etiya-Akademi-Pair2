@@ -1,5 +1,6 @@
 package com.etiya.ecommercedemopair2.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,10 +22,10 @@ public class Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "color_name")
-    private String color_name;
+    @Column(name = "name")
+    private String name;
 
     @OneToMany(mappedBy = "color")
-    @JsonIgnoreProperties("color")
+    @JsonIgnore
     private List<Product> products;
 }

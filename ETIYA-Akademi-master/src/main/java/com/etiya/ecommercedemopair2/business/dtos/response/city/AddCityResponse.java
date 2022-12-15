@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class AddCityResponse {
     private int id;
     private String city_name;
-    private int district_id;
+    private int country_id;
 }

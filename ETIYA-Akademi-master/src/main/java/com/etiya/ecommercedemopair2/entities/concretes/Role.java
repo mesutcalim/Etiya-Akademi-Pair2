@@ -24,15 +24,15 @@ public class Role {
     @Column(name = "role_name")
     private String role_name;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "id")
     @JsonIgnoreProperties("role")
-    private List<Shipper> Shipper;
+    private List<Shipper> shipper;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "id")
     @JsonIgnoreProperties("role")
     private List<Customer> customer;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "id")
     @JsonIgnoreProperties("role")
     private List<Salesman> salesmen;
 }

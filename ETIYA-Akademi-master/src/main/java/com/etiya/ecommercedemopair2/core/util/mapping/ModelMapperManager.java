@@ -3,21 +3,40 @@ package com.etiya.ecommercedemopair2.core.util.mapping;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class ModelMapperManager implements ModelMapperService {
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public ModelMapper getMapper() {
-        modelMapper.getConfiguration()
-                .setAmbiguityIgnored(true)
-                .setMatchingStrategy(MatchingStrategies.STANDARD);
-        return modelMapper;
+        this.modelMapper.getConfiguration().setAmbiguityIgnored(true)
+                .setMatchingStrategy(MatchingStrategies.STANDARD)
+                .setFieldMatchingEnabled(true);
+        return this.modelMapper;
     }
+//    @Override
+//    public ModelMapper forRequest() {
+//        this.modelMapper.getConfiguration().setAmbiguityIgnored(true)
+//                .setMatchingStrategy(MatchingStrategies.STANDARD)
+//                .setFieldMatchingEnabled(true);
+//        return this.modelMapper;
+//    }
+
+
+
+//    @Override
+//    public ModelMapper forResponse() {
+//        this.modelMapper.getConfiguration().setAmbiguityIgnored(true)
+//                .setMatchingStrategy(MatchingStrategies.LOOSE)
+//                .setFieldMatchingEnabled(true);
+//        return this.modelMapper;
+//    }
+
     //Request ve Response için configurationlar değişebilir
     //TODO: iki fonk oluştur. forRequest,forResponse request ve response için configürasyon yapıp
     //model mappperi

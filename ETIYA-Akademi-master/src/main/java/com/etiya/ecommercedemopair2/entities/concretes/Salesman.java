@@ -26,11 +26,11 @@ public class Salesman {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("salesman")
+    @JsonIgnoreProperties({"salesman","customer","shipper"})
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnoreProperties("salesman")
+    @JsonIgnoreProperties({"salesman","customer","shipper","role"})
     private Role role;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import java.sql.Date;
 public class AddOrderDetailsResponse {
     private int id;
     private int order_id;
-    private int product_id;
+    private List<Integer> productId;
     private double total;
     private String coupon;
 }

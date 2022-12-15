@@ -25,6 +25,6 @@ public class PaymentMethod {
     private String name;
 
     @OneToMany(mappedBy = "id")
-    @JsonIgnoreProperties("id")
+    @JsonIgnoreProperties("paymentMethod")
     private List<Order> order;
 }

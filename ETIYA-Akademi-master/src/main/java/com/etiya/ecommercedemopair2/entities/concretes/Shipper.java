@@ -30,10 +30,10 @@ public class Shipper {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnoreProperties("shipper")
+    @JsonIgnoreProperties({"salesman","customer","shipper"})
     private Role role;
 
     @OneToMany(mappedBy = "shipper")
-    @JsonIgnoreProperties("shipper")
+    @JsonIgnoreProperties({"shipper","order"})
     private List<Order> order;
 }

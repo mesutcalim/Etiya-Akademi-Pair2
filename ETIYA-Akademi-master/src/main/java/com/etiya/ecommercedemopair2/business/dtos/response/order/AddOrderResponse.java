@@ -3,6 +3,7 @@ package com.etiya.ecommercedemopair2.business.dtos.response.order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 

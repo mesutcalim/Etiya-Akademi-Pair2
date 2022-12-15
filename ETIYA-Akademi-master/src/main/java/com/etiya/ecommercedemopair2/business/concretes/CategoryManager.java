@@ -4,7 +4,12 @@ import com.etiya.ecommercedemopair2.business.abstracts.CategoryService;
 import com.etiya.ecommercedemopair2.business.constants.Messages;
 import com.etiya.ecommercedemopair2.business.dtos.request.category.AddCategoryRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.category.AddCategoryResponse;
+import com.etiya.ecommercedemopair2.core.util.exceptions.BusinessException;
 import com.etiya.ecommercedemopair2.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair2.core.util.messages.MessagesManager;
+import com.etiya.ecommercedemopair2.core.util.messages.MessagesService;
+import com.etiya.ecommercedemopair2.core.util.results.DataResult;
+import com.etiya.ecommercedemopair2.core.util.results.SuccessDataResult;
 import com.etiya.ecommercedemopair2.entities.concretes.Category;
 import com.etiya.ecommercedemopair2.repository.abstracts.CategoryRepository;
 import lombok.AllArgsConstructor;
@@ -16,29 +21,39 @@ import java.util.List;
 public class CategoryManager implements CategoryService {
     private CategoryRepository categoryRepository;
     private ModelMapperService modelMapperService;
-
+private MessagesService messagesService;
     @Override
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public DataResult<List<Category>> getAll() {
+
+        return new SuccessDataResult<List<Category>>
+                (this.categoryRepository.findAll(),"Kategori Listelendi.");
+
     }
 
     @Override
-    public Category getById(int id) {
-        return categoryRepository.findById(id).orElseThrow();
+    public DataResult<Category> getById(int categoryId) {
+        return new SuccessDataResult<Category>
+                (this.categoryRepository.findById(categoryId).orElseThrow(),"Id'ye göre listelendi.");
     }
 
     @Override
-    public Category getByName(String name) {
-        return categoryRepository.findByName(name);
+    public DataResult<Category> getByName(String name) {
+
+        return new SuccessDataResult<Category>
+                (categoryRepository.findByName(name),"İsme göre listelendi");
+
     }
 
     @Override
-    public Category customGetByName(String name) {
-        return categoryRepository.customFindByName(name);
+    public DataResult<Category> customGetByName(String name) {
+
+        return new SuccessDataResult<Category>
+                (categoryRepository.customFindByName(name));
     }
 
+    //JPA Repository Save methodu, eklenen veriyi geri döner
     @Override
-    public AddCategoryResponse addCategory(AddCategoryRequest addCategoryRequest) {
+    public DataResult<AddCategoryResponse> addCategory(AddCategoryRequest addCategoryRequest) {
         //Manuel Mapper
         /*Category category = new Category();
         category.setName(addCategoryRequest.getName());
@@ -55,13 +70,16 @@ public class CategoryManager implements CategoryService {
         AddCategoryResponse response=
                 modelMapperService.getMapper().map(savedCategory,AddCategoryResponse.class);
         //AutoMapperEnd
-        return response;
+
+        return new SuccessDataResult<AddCategoryResponse>(response,"Kategori eklendi.");
     }
 
     private void categoryCanNotExistWithSameName(String name){
         boolean isExists = categoryRepository.existsCategoryByName(name);
         if(isExists){
-            throw new RuntimeException(Messages.Category.CategoryExistWithSameName);
+            throw new BusinessException(
+                    messagesService.Messages(
+                            Messages.Category.CategoryExistWithSameName));
         }
     }
 }

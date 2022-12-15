@@ -6,15 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddOrderDetailsRequest {
-    @Min(value=1,message = "orderId "+ Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "orderId "+ Messages.Common.IdFieldNeedsToBeMinOne)
     private int orderId;
-    @Min(value=1,message = "productId "+ Messages.Id.IdFieldNeedsToBeMinOne)
-    private int productId;
+
+    private List<Integer> productId;
     private double total;
     private String coupon;
 }

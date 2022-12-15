@@ -4,6 +4,8 @@ import com.etiya.ecommercedemopair2.business.abstracts.PaymentMethodService;
 import com.etiya.ecommercedemopair2.business.dtos.request.paymentMethod.AddPaymentMethodRequest;
 import com.etiya.ecommercedemopair2.business.dtos.response.paymentMethod.AddPaymentMethodResponse;
 import com.etiya.ecommercedemopair2.core.util.mapping.ModelMapperService;
+import com.etiya.ecommercedemopair2.core.util.results.DataResult;
+import com.etiya.ecommercedemopair2.core.util.results.SuccessDataResult;
 import com.etiya.ecommercedemopair2.entities.concretes.PaymentMethod;
 import com.etiya.ecommercedemopair2.repository.abstracts.PaymentMethodRepository;
 import lombok.AllArgsConstructor;
@@ -16,22 +18,26 @@ import java.util.List;
 public class PaymentMethodManager implements PaymentMethodService {
     private PaymentMethodRepository paymentMethodRepository;
     private ModelMapperService modelMapperService;
-    @Override
-    public List<PaymentMethod> getAll(){
-        return paymentMethodRepository.findAll();
-    }
-    @Override
-    public PaymentMethod getById(int id) {
-        return paymentMethodRepository.findById(id).orElseThrow();
+    public DataResult<List<PaymentMethod>> getAll(){
+        return new SuccessDataResult<List<PaymentMethod>>(paymentMethodRepository.findAll(),"Data Listelendi.");
+
     }
 
     @Override
-    public AddPaymentMethodResponse addPaymentMethod(AddPaymentMethodRequest addPaymentMethodRequest){
-        PaymentMethod paymentMethod=
-                modelMapperService.getMapper().map(addPaymentMethodRequest,PaymentMethod.class);
-        PaymentMethod savedPaymentMethod= paymentMethodRepository.save(paymentMethod);
+    public DataResult<PaymentMethod> getById(int id) {
+        return new SuccessDataResult<PaymentMethod>(paymentMethodRepository.findById(id).orElseThrow(),"Id'ye göre listelendi.");
 
-        AddPaymentMethodResponse response= modelMapperService.getMapper().map(savedPaymentMethod,AddPaymentMethodResponse.class);
-        return  response;
+    }
+
+    @Override
+    public DataResult<AddPaymentMethodResponse> addPaymentMethod(AddPaymentMethodRequest addPaymentMethodRequest) {
+        PaymentMethod paymentMethod=modelMapperService.getMapper().map(addPaymentMethodRequest,PaymentMethod.class);
+
+        PaymentMethod savedPaymentMethod=paymentMethodRepository.save(paymentMethod);
+
+        AddPaymentMethodResponse response =
+                modelMapperService.getMapper().map(savedPaymentMethod,AddPaymentMethodResponse.class);
+
+        return new SuccessDataResult<AddPaymentMethodResponse>(response,"Ödeme yöntemi eklendi.");
     }
 }

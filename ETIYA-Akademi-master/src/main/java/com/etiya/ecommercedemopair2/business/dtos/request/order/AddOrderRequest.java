@@ -14,11 +14,11 @@ import java.util.Date;
 public class AddOrderRequest {
     private Date order_date;
     private Date ship_date;
-    @Min(value=1,message = "shipper_id "+ Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "shipper_id "+ Messages.Common.IdFieldNeedsToBeMinOne)
     private int shipperId;
-    @Min(value=1,message = "payment_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "payment_id "+Messages.Common.IdFieldNeedsToBeMinOne)
     private int paymentMethodId;
-    @Min(value=1,message = "customer_id "+Messages.Id.IdFieldNeedsToBeMinOne)
+    @Min(value=1,message = "customer_id "+Messages.Common.IdFieldNeedsToBeMinOne)
     private int customerId;
 
 }
